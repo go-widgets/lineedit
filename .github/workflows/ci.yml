@@ -46,6 +46,23 @@ jobs:
           GOARCH: "386"
         run: go test -count=1 ./...
 
+  # Keys and lines a user types, and the raw terminal byte stream the Reader
+  # decodes, are untrusted input: each target is fuzzed on every change, as
+  # go-wasmcontainers/engine did before the module moved here.
+  fuzz:
+    name: fuzz smoke ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [FuzzReader, FuzzEditor, FuzzSplitPartial, FuzzSplit]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+      - run: go test -run '^$' -fuzz '^${{ matrix.target }}$' -fuzztime 45s .
+
   govulncheck:
     runs-on: ubuntu-latest
     steps:
