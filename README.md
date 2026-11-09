@@ -47,8 +47,9 @@ a line-oriented terminal on it (go-widgets/toolkit#548).
 ## Tests
 
 - 100 % statement coverage, gated in CI.
-- Fuzz targets `FuzzEditor` and `FuzzSplitPartial`, with their corpus in
-  `testdata/fuzz`.
+- Four fuzz targets, each fuzzed for 45 s on every change: `FuzzReader` (the
+  raw terminal byte stream), `FuzzEditor` (keys), `FuzzSplitPartial` and
+  `FuzzSplit` (lines). The corpus is committed in `testdata/fuzz`.
 - CI runs on Linux (amd64 and arm64), macOS, Windows and 32-bit Linux, and
   runs govulncheck.
 
